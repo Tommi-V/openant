@@ -238,6 +238,8 @@ class BikeCadence(AntPlusDevice):
         bike_cadence_data.calculate_cadence()
 
     def on_data(self, data):
+        flags = data[1]
+        _logger.info(f"[DEBUG] Byte 1 (flags) of cadence packet: 0x{flags:02X}")
         page = data[0]
 
         _logger.debug(f"{self} on_data: {data}")
