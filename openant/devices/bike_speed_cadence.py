@@ -77,6 +77,7 @@ class BikeCadenceData(DeviceData):
     manufacturer_id_lsb: int = 0xFF
     serial_number: int = 0xFFFF
     calculated_cadence: Optional[float] = None
+    last_flags: Optional[int] = None
 
     @property
     def cadence(self):
@@ -239,7 +240,8 @@ class BikeCadence(AntPlusDevice):
 
     def on_data(self, data):
         flags = data[1]
-        _logger.info(f"[DEBUG] Byte 1 (flags) of cadence packet: 0x{flags:02X}")
+        self.data["bike_cadence"].last_flags = flags
+        _logger.debug(f"[DEBUG] Byte 1 (flags) of cadence packet: 0x{flags:02X}")
         page = data[0]
 
         _logger.debug(f"{self} on_data: {data}")
